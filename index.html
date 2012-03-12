@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html ng:xmlns="http://angularjs.org/">
+  <head>
+    <title>Feed test</title>
+    <script src="http://code.angularjs.org/angular-0.9.19.min.js" ng:autobind></script>
+    <script src="http://localhost:3001/socket.io/socket.io.js"></script>
+    <script>
+        function Controller($updateView) {
+          var self = this;
+          var socket = io.connect('http://localhost:3001/');
+          this.feeds = [];
+
+          socket.on('news', function(data) {
+             self.feeds.push(data); 
+             $updateView();
+          });
+        }
+    </script>
+  </head>
+  <body ng:controller="Controller">
+      <div id="main">
+          <h4>Feed</h4>
+          <div id="feed" ng:repeat="feed in feeds">
+            <span ng:bind-template="{{feed.feed}}">      
+          </div>
+      </div>
+  </body>
+</html>
